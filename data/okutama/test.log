@@ -1,0 +1,18 @@
+I0227 20:24:30.313355 13934 convert_annoset.cpp:122] A total of 14714 images.
+I0227 20:24:30.384968 13934 db_lmdb.cpp:35] Opened lmdb /home/amin/lmdb/okutama_Detection_test_lmdb
+I0227 20:24:51.587823 13934 convert_annoset.cpp:195] Processed 1000 files.
+I0227 20:25:14.078107 13934 convert_annoset.cpp:195] Processed 2000 files.
+I0227 20:25:38.118806 13934 convert_annoset.cpp:195] Processed 3000 files.
+I0227 20:25:57.927893 13934 convert_annoset.cpp:195] Processed 4000 files.
+I0227 20:26:17.995189 13934 convert_annoset.cpp:195] Processed 5000 files.
+I0227 20:26:37.332396 13934 convert_annoset.cpp:195] Processed 6000 files.
+I0227 20:26:58.972676 13934 convert_annoset.cpp:195] Processed 7000 files.
+I0227 20:27:21.546715 13934 convert_annoset.cpp:195] Processed 8000 files.
+I0227 20:27:44.755751 13934 convert_annoset.cpp:195] Processed 9000 files.
+I0227 20:28:07.727433 13934 convert_annoset.cpp:195] Processed 10000 files.
+I0227 20:28:31.134572 13934 convert_annoset.cpp:195] Processed 11000 files.
+I0227 20:28:52.075376 13934 convert_annoset.cpp:195] Processed 12000 files.
+I0227 20:29:21.158047 13934 convert_annoset.cpp:195] Processed 13000 files.
+I0227 20:30:09.142696 13934 convert_annoset.cpp:195] Processed 14000 files.
+I0227 20:30:39.560165 13934 convert_annoset.cpp:201] Processed 14714 files.
+/home/amin/Amin-SSD/caffe/build/tools/convert_annoset --anno_type=detection --label_type=xml --label_map_file=/home/amin/Amin-SSD/caffe/data/okutama/labelmap_SDD_detection.prototxt --check_label=True --min_dim=0 --max_dim=0 --resize_height=0 --resize_width=0 --backend=lmdb --shuffle=False --check_size=False --encode_type=jpg --encoded=True --gray=False / /home/amin/Amin-SSD/caffe/data/okutama/test_Detection.txt /home/amin/lmdb/okutama_Detection_test_lmdb

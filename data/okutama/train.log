@@ -1,0 +1,10 @@
+usage: create_annoset.py [-h] [--redo] [--anno-type ANNO_TYPE]
+                         [--label-type LABEL_TYPE] [--backend BACKEND]
+                         [--check-size] [--encode-type ENCODE_TYPE]
+                         [--encoded] [--gray]
+                         [--label-map-file LABEL_MAP_FILE] [--min-dim MIN_DIM]
+                         [--max-dim MAX_DIM] [--resize-height RESIZE_HEIGHT]
+                         [--resize-width RESIZE_WIDTH] [--shuffle]
+                         [--check-label]
+                         root listfile outdir exampledir
+create_annoset.py: error: too few arguments

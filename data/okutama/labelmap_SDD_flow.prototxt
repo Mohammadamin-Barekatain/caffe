@@ -1,0 +1,69 @@
+item {
+  name: "none_of_the_above"
+  label: 0
+  display_name: "background"
+}
+           
+item {
+  name: 'Walking'
+  label: 1
+  display_name: 'Walking'
+}
+
+item {
+  name: 'Sitting'
+  label: 2
+  display_name: 'Sitting'
+}
+item {
+  name: 'Standing'
+  label: 3
+  display_name: 'Standing'
+}
+item {
+  name: 'Running'
+  label: 4
+  display_name: 'Running'
+}
+item {
+  name: 'Lying'
+  label: 5
+  display_name: 'Lying'
+}
+item {
+  name: 'Carrying'
+  label: 6
+  display_name: 'Carrying'
+}
+item {
+  name: 'Pushing/Pulling'
+  label: 7
+  display_name: 'Pushing/Pulling'
+}
+item {
+  name: 'Reading'
+  label: 8
+  display_name: 'Reading'
+}
+item {
+  name: 'Drinking'
+  label: 9
+  display_name: 'Drinking'
+}
+item {
+  name: 'Calling'
+  label: 10
+  display_name: 'Calling'
+}
+item {
+  name: 'Hand Shaking'
+  label: 11
+  display_name: 'Hand Shaking'
+}
+
+item {
+  name: 'Hugging'
+  label: 12
+  display_name: 'Hand Shaking'
+}
+
