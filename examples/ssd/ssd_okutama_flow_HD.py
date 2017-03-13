@@ -39,6 +39,7 @@ def AddExtraLayers(net, use_batchnorm=True, lr_mult=1):
     out_layer = "conv7_2"
     ConvBNLayer(net, from_layer, out_layer, use_batchnorm, use_relu, 256, 3, 1, 2,
       lr_mult=lr_mult)
+
     return net
 
 
@@ -57,12 +58,12 @@ remove_old_models = False
 
 
 # The database file for training data. Created by data/coco/create_data.sh
-train_data = "/home/amin/lmdb/okutama_action_trainval_lmdb"
+train_data = "/home/amin/lmdb/okutama_flow_trainval_lmdb"
 # The database file for testing data. Created by data/coco/create_data.sh
-test_data = "/home/amin/lmdb/okutama_action_test_lmdb"
+test_data = "/home/amin/lmdb/okutama_flow_test_lmdb"
 # Specify the batch sampler.
-resize_width = 512
-resize_height = 512
+resize_width = 960
+resize_height = 540
 resize = "{}x{}".format(resize_width, resize_height)
 batch_sampler = [
         {
@@ -152,7 +153,7 @@ batch_sampler = [
         ]
 train_transform_param = {
         'mirror': True,
-        'mean_value': [104, 117, 123],
+        'mean_value': [167, 133, 125],
         'force_color': True,
         'resize_param': {
                 'prob': 1,
@@ -189,7 +190,7 @@ train_transform_param = {
             }
         }
 test_transform_param = {
-        'mean_value': [104, 117, 123],
+        'mean_value': [167, 133, 125],
         'force_color': True,
         'resize_param': {
                 'prob': 1,
@@ -206,24 +207,24 @@ use_batchnorm = False
 lr_mult = 1
 # Use different initial learning rate.
 if use_batchnorm:
-    base_lr = 0.00004
+    base_lr = 0.000004 # changed
 else:
     # A learning rate for batch_size = 1, num_gpus = 1.
-    base_lr = 0.00002
+    base_lr = 0.000002 # changed
 
 # Modify the job name if you want.
 job_name = "SSD_{}".format(resize)
 # The name of the model. Modify it if you want.
-model_name = "VGG_okutama_action_{}".format(job_name)
+model_name = "VGG_okutama_flow_{}".format(job_name)
 
 # Directory which stores the model .prototxt file.
-save_dir = "models/VGGNet/okutama/action/{}".format(job_name)
+save_dir = "models/VGGNet/okutama/flow/{}".format(job_name)
 # Directory which stores the snapshot of models.
-snapshot_dir = "models/VGGNet/okutama/action/{}".format(job_name)
+snapshot_dir = "models/VGGNet/okutama/flow/{}".format(job_name)
 # Directory which stores the job script and log file.
-job_dir = "jobs/VGGNet/okutama/action/{}".format(job_name)
+job_dir = "jobs/VGGNet/okutama/flow/{}".format(job_name)
 # Directory which stores the detection results.
-output_result_dir = "{}/data/okutama/results/action/{}".format(os.environ['HOME'], job_name)
+output_result_dir = "{}/data/okutama/results/flow/{}".format(os.environ['HOME'], job_name)
 
 # model definition files.
 train_net_file = "{}/train.prototxt".format(save_dir)
@@ -236,11 +237,11 @@ snapshot_prefix = "{}/{}".format(snapshot_dir, model_name)
 job_file = "{}/{}.sh".format(job_dir, model_name)
 
 # Stores the test image names and sizes. Created by data/coco/create_list.sh
-name_size_file = "data/okutama/val_action_size.txt"
+name_size_file = "data/okutama/val_flow_size.txt"
 # The pretrained model. We use the Fully convolutional reduced (atrous) VGGNet.
 pretrain_model = "models/VGGNet/VGG_ILSVRC_16_layers_fc_reduced.caffemodel"
 # Stores LabelMapItem.
-label_map_file = "data/okutama/labelmap_SDD_action.prototxt"
+label_map_file = "data/okutama/labelmap_SDD_flow.prototxt"
 
 # MultiBoxLoss parameters.
 num_classes = 13
@@ -271,9 +272,16 @@ multibox_loss_param = {
     'ignore_cross_boundary_bbox': ignore_cross_boundary_bbox,
     }
 loss_param = {
+    'ignore_label': 2,
+    'ignore_label': 5,
+    'ignore_label': 6,
+    'ignore_label': 8,
+    'ignore_label': 9,
+    'ignore_label': 10,
+    'ignore_label': 11,
+    'ignore_label': 12,
     'normalization': normalization_mode,
     }
-
 # parameters for generating priors.
 # minimum dimension of input image
 min_dim = 300
@@ -285,7 +293,7 @@ min_dim = 300
 # conv9_2 ==> 1 x 1
 mbox_source_layers = ['conv4_3', 'fc7', 'conv6_2', 'conv7_2']
 # in percent %
-min_ratio = 5
+min_ratio = 10
 max_ratio = 90
 step = int(math.floor((max_ratio - min_ratio) / (len(mbox_source_layers) - 2)))
 min_sizes = []
@@ -296,7 +304,7 @@ for ratio in xrange(min_ratio, max_ratio + 1, step):
 min_sizes = [min_dim * 7 / 100.] + min_sizes
 max_sizes = [min_dim * 15 / 100.] + max_sizes
 steps = [8, 16, 32, 64]
-aspect_ratios = [[2], [2, 3], [2, 3], [2, 3]] 
+aspect_ratios = [[2], [2, 3], [2, 3], [2, 3]]
 # L2 normalize conv4_3.
 normalizations = [20, -1, -1, -1]
 # variance used to encode/decode prior bboxes.
@@ -309,12 +317,12 @@ clip = False
 
 # Solver parameters.
 # Defining which GPUs to use.
-gpus = "1"
+gpus = "0"
 gpulist = gpus.split(",")
 num_gpus = len(gpulist)
 
 # Divide the mini-batch to different GPUs.
-batch_size = 12
+batch_size = 6
 accum_batch_size = 36
 iter_size = accum_batch_size / batch_size
 solver_mode = P.Solver.CPU
@@ -337,7 +345,7 @@ elif normalization_mode == P.Loss.FULL:
 
 # Evaluate on whole test set.
 num_test_image = 17930
-test_batch_size = 3
+test_batch_size = 1
 test_iter = num_test_image / test_batch_size
 
 solver_param = {
@@ -345,12 +353,12 @@ solver_param = {
     'base_lr': base_lr,
     'weight_decay': 0.0005,
     'lr_policy': "multistep",
-    'stepvalue': [18000, 130000, 160000],
+    'stepvalue': [12000, 60000, 80000],
     'gamma': 0.1,
     'momentum': 0.9,
     'iter_size': iter_size,
-    'max_iter': 180000,
-    'snapshot': 500, #changed it
+    'max_iter': 100000,
+    'snapshot': 250, #changed it
     'display': 10,
     'average_loss': 10,
     'type': "SGD",
@@ -364,7 +372,7 @@ solver_param = {
     'eval_type': "detection",
     'ap_version': "11point",
     'test_initialization': False,
-    'show_per_class_result': True,
+    'show_per_class_result': True
     }
 
 # parameters for generating detection output.
@@ -375,7 +383,7 @@ det_out_param = {
     'nms_param': {'nms_threshold': 0.45, 'top_k': 400},
     'save_output_param': {
         'output_directory': output_result_dir,
-        'output_name_prefix': "action_val_ssd512_results",
+        'output_name_prefix': "flow_val_ssd512_results",
         'output_format': "okutama",
         'label_map_file': label_map_file,
         'name_size_file': name_size_file,
@@ -393,6 +401,7 @@ det_eval_param = {
     'overlap_threshold': 0.5,
     'evaluate_difficult_gt': False,
     'name_size_file': name_size_file,
+ #   'show_per_class_result': True,
     }
 
 ### Hopefully you don't need to change the following ###
